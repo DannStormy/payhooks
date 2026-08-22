@@ -1,0 +1,17 @@
+{
+  "event": "subscription.cancelled",
+  "data": {
+    "id": 99001122,
+    "tx_ref": "Sub-991827364550",
+    "reference": "Sub-991827364550",
+    "amount": 5000,
+    "currency": "NGN",
+    "status": "cancelled",
+    "created_at": "2020-07-06T19:17:04.000Z",
+    "customer": {
+      "id": 215604089,
+      "name": "Yemi Desola",
+      "email": "user@gmail.com"
+    }
+  }
+}

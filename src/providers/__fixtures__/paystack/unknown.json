@@ -1,0 +1,23 @@
+{
+  "event": "subscription.create",
+  "data": {
+    "domain": "test",
+    "status": "active",
+    "subscription_code": "SUB_vsyqdmlzble3uii",
+    "amount": 50000,
+    "currency": "NGN",
+    "reference": "SUB_ref_001",
+    "customer": {
+      "first_name": "Bojack",
+      "last_name": "Horseman",
+      "email": "bojack@horsinaround.com"
+    },
+    "plan": {
+      "name": "Monthly retainer",
+      "plan_code": "PLN_gx2wn530m0i3w3m",
+      "amount": 50000,
+      "interval": "monthly",
+      "currency": "NGN"
+    }
+  }
+}

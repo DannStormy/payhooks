@@ -1,0 +1,5 @@
+node_modules
+dist
+
+# internal planning, not for the public repo
+SCOPE.md
