@@ -18,7 +18,10 @@
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test test/*.test.ts"
+    "test": "node --import tsx --test test/*.test.ts",
+    "validate:fixtures": "node --import tsx tools/validate-fixtures.ts",
+    "validate:file": "node --import tsx tools/validate-fixtures.ts",
+    "validate:diff": "node --import tsx tools/validate-fixtures.ts --diff-only"
   },
   "engines": {
     "node": ">=18"

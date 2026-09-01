@@ -3,3 +3,6 @@ dist
 
 # internal planning, not for the public repo
 SCOPE.md
+
+# captured real webhooks (test data), not for the repo
+tools/captured/
