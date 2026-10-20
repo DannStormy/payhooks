@@ -21,7 +21,7 @@ It is a framework-agnostic library. No hosted service, no ops.
 ## Install
 
 ```sh
-npm install payhooks
+npm install @dannstormy/payhooks
 ```
 
 Node 18+. The Redis and SQL stores need an optional peer dep (see below); the
@@ -33,7 +33,7 @@ Pass the **raw** request body (not a parsed object) and the request headers. The
 signature is computed over the exact bytes, so parsing first breaks verification.
 
 ```ts
-import { createHandler, paystack, flutterwave, MemoryStore } from 'payhooks';
+import { createHandler, paystack, flutterwave, MemoryStore } from '@dannstormy/payhooks';
 
 const handler = createHandler({
   store: new MemoryStore(),
@@ -97,7 +97,7 @@ is seen and `false` on every redelivery. Pick one:
 | `SqlStore` | built in | `better-sqlite3` (`^11`) | you already run SQLite |
 
 ```ts
-import { RedisStore, SqlStore } from 'payhooks';
+import { RedisStore, SqlStore } from '@dannstormy/payhooks';
 
 // Redis: pass a URL/options, or an existing ioredis client.
 const store = new RedisStore(process.env.REDIS_URL!, { defaultTtlSeconds: 86400 });

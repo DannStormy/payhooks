@@ -1,8 +1,29 @@
 {
-  "name": "payhooks",
+  "name": "@dannstormy/payhooks",
   "version": "0.1.0",
   "description": "Verify, normalize, and reliably process inbound webhooks from African payment providers (Paystack, Flutterwave).",
   "license": "MIT",
+  "author": "Daniel Isaac",
+  "homepage": "https://github.com/DannStormy/payhooks#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DannStormy/payhooks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DannStormy/payhooks/issues"
+  },
+  "keywords": [
+    "webhooks",
+    "webhook-verification",
+    "paystack",
+    "flutterwave",
+    "payments",
+    "idempotency",
+    "signature-verification",
+    "fintech",
+    "nodejs",
+    "typescript"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -17,6 +38,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "prepublishOnly": "npm run build && npm test",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test test/*.test.ts",
     "validate:fixtures": "node --import tsx tools/validate-fixtures.ts",
