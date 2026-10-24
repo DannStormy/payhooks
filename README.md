@@ -160,7 +160,9 @@ this one doesn't.
 
 - **Paystack**: validated against real test-mode webhooks. Capturing them is what
   surfaced that refunds carry no `data.reference`, only `data.transaction_reference`.
-- **Flutterwave v2**: `charge.v2.json` is a real test-mode capture.
+- **Flutterwave v2**: `charge.v2.json` is a real test-mode capture. Rave v2 does **not**
+  send a refund webhook (verified: a test-mode refund fired nothing), so v2 refunds are a
+  poll-the-API action, not an event you receive.
 - **Flutterwave v3**: `charge.completed.json` and `refund.json` are still
   documentation-derived (built from the docs, not yet captured). Validate them before
   relying on v3 refund handling in production: point a Standard integration at a
