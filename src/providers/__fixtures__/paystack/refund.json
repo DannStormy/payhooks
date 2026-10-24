@@ -1,18 +1,20 @@
 {
-  "event": "refund.processed",
+  "event": "refund.pending",
   "data": {
-    "status": "processed",
-    "transaction_reference": "T685312322670591",
-    "reference": "qTPrJoy9Bx",
-    "amount": 10000,
+    "status": "pending",
+    "transaction_reference": "T161186953677433",
+    "refund_reference": null,
+    "amount": 800000,
     "currency": "NGN",
-    "processor": "refund_processor",
     "customer": {
-      "first_name": "Bojack",
-      "last_name": "Horseman",
-      "email": "bojack@horsinaround.com"
+      "first_name": "Liya",
+      "last_name": "Pra7",
+      "email": "company@yopmail.com"
     },
-    "integration": 100073,
-    "domain": "test"
+    "integration": 1234567,
+    "domain": "test",
+    "id": "18833241",
+    "customer_note": "sorry",
+    "merchant_note": "Refund for transaction T161186953677433"
   }
 }

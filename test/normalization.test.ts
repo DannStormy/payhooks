@@ -14,23 +14,24 @@ function normFlutterwave(file: string) {
 test('paystack: charge.success maps to the expected normalized fields', () => {
   const e = normPaystack('charge.success.json');
   assert.equal(e.provider, 'paystack');
-  assert.equal(e.id, 'paystack:302961');
+  assert.equal(e.id, 'paystack:6691413829');
   assert.equal(e.type, 'charge.success');
-  assert.equal(e.reference, 'qTPrJoy9Bx');
-  assert.equal(e.amount, 100); // 10000 kobo -> 100 NGN major units
+  assert.equal(e.reference, 'T161186953677433');
+  assert.equal(e.amount, 8000); // 800000 kobo -> 8000 NGN major units
   assert.equal(e.currency, 'NGN');
-  assert.deepEqual(e.customer, { email: 'bojack@horsinaround.com', name: 'Bojack Horseman' });
+  assert.deepEqual(e.customer, { email: 'company@yopmail.com', name: 'Liya Pra7' });
   assert.ok(e.raw);
 });
 
-test('paystack: refund.processed maps to type "refund"', () => {
+test('paystack: refund (refund.pending) maps to type "refund"', () => {
   const e = normPaystack('refund.json');
   assert.equal(e.type, 'refund');
-  assert.equal(e.reference, 'qTPrJoy9Bx');
-  assert.equal(e.id, 'paystack:qTPrJoy9Bx'); // no data.id -> falls back to reference
-  assert.equal(e.amount, 100);
+  // real refunds carry no data.reference; reference comes from transaction_reference (the original charge)
+  assert.equal(e.reference, 'T161186953677433');
+  assert.equal(e.id, 'paystack:18833241'); // the refund's own data.id
+  assert.equal(e.amount, 8000);
   assert.equal(e.currency, 'NGN');
-  assert.deepEqual(e.customer, { email: 'bojack@horsinaround.com', name: 'Bojack Horseman' });
+  assert.deepEqual(e.customer, { email: 'company@yopmail.com', name: 'Liya Pra7' });
 });
 
 test('paystack: unknown event type passes through as "unknown" without throwing', () => {

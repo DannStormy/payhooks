@@ -1,44 +1,67 @@
 {
   "event": "charge.success",
   "data": {
-    "id": 302961,
+    "id": 6691413829,
     "domain": "test",
     "status": "success",
-    "reference": "qTPrJoy9Bx",
-    "amount": 10000,
+    "reference": "T161186953677433",
+    "amount": 800000,
     "message": null,
-    "gateway_response": "Approved by Financial Institution",
-    "paid_at": "2020-05-27T11:45:03.000Z",
-    "created_at": "2020-05-27T11:45:03.000Z",
+    "gateway_response": "Successful",
+    "gateway_response_code": "approved",
+    "response_code": "00",
+    "paid_at": "2026-10-24T13:41:18.000Z",
+    "created_at": "2026-10-24T13:41:14.000Z",
     "channel": "card",
     "currency": "NGN",
-    "ip_address": "197.210.227.97",
+    "ip_address": "0.0.0.0",
     "metadata": {
-      "custom_fields": []
+      "referrer": "https://paystack.shop/pay/example"
     },
-    "fees": 150,
-    "customer": {
-      "id": 68324,
-      "first_name": "Bojack",
-      "last_name": "Horseman",
-      "email": "bojack@horsinaround.com",
-      "customer_code": "CUS_qo0dg43xxxxxxxx",
-      "phone": "",
-      "metadata": null,
-      "risk_action": "default"
-    },
+    "fees_breakdown": null,
+    "log": null,
+    "fees": 22000,
+    "fees_split": null,
     "authorization": {
-      "authorization_code": "AUTH_xxxxxxxx",
+      "authorization_code": "AUTH_test",
       "bin": "408408",
       "last4": "4081",
       "exp_month": "12",
       "exp_year": "2030",
       "channel": "card",
-      "card_type": "visa",
+      "card_type": "visa ",
       "bank": "TEST BANK",
       "country_code": "NG",
       "brand": "visa",
-      "reusable": true
+      "reusable": true,
+      "signature": "SIG_test",
+      "account_name": null,
+      "receiver_bank_account_number": null,
+      "receiver_bank": null
+    },
+    "customer": {
+      "id": 411321064,
+      "first_name": "Liya",
+      "last_name": "Pra7",
+      "email": "company@yopmail.com",
+      "customer_code": "CUS_test",
+      "phone": "",
+      "metadata": null,
+      "risk_action": "default",
+      "international_format_phone": null
+    },
+    "plan": {},
+    "subaccount": {},
+    "split": {},
+    "order_id": null,
+    "paidAt": "2026-10-24T13:41:18.000Z",
+    "requested_amount": 800000,
+    "pos_transaction_data": null,
+    "source": {
+      "type": "web",
+      "source": "checkout",
+      "entry_point": "request_inline",
+      "identifier": null
     }
   }
 }

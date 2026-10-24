@@ -33,7 +33,7 @@ test('handler: ok on a valid signed paystack fixture (auto-detected)', async () 
     assert.equal(res.duplicate, false);
     assert.equal(res.event.provider, 'paystack');
     assert.equal(res.event.type, 'charge.success');
-    assert.equal(res.event.id, 'paystack:302961');
+    assert.equal(res.event.id, 'paystack:6691413829');
   }
 });
 
@@ -58,7 +58,7 @@ test('handler: invalid signature is rejected', async () => {
 test('handler: tampered body is rejected as invalid_signature (paystack)', async () => {
   const h = newHandler();
   const headers = paystackHeaders(paystackBody, PAYSTACK_SECRET);
-  const tampered = paystackBody.replace('10000', '99999');
+  const tampered = paystackBody.replace('800000', '999999');
   const res = await h.handle(tampered, headers);
   assert.equal(res.ok, false);
   if (!res.ok) assert.equal(res.reason, 'invalid_signature');

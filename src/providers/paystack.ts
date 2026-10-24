@@ -45,6 +45,8 @@ interface PaystackCustomer {
 interface PaystackData {
   id?: number | string;
   reference?: string;
+  transaction_reference?: string;
+  refund_reference?: string;
   amount?: number;
   currency?: string;
   customer?: PaystackCustomer | null;
@@ -81,7 +83,12 @@ function normalize(
   const eventName = typeof payload.event === 'string' ? payload.event : '';
   const type = TYPE_MAP[eventName] ?? 'unknown';
 
-  const reference = typeof data.reference === 'string' ? data.reference : '';
+  // refund events carry no data.reference; they use transaction_reference (the original charge's ref)
+  const reference =
+    (typeof data.reference === 'string' && data.reference) ||
+    (typeof data.transaction_reference === 'string' && data.transaction_reference) ||
+    (typeof data.refund_reference === 'string' && data.refund_reference) ||
+    '';
 
   const providerId =
     data.id !== undefined && data.id !== null && data.id !== ''

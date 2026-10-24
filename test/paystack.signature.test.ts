@@ -17,7 +17,7 @@ test('paystack: valid signature passes for a Buffer body', () => {
 
 test('paystack: tampered body fails', () => {
   const headers = { 'x-paystack-signature': paystackSignature(body, PAYSTACK_SECRET) };
-  const tampered = body.replace('10000', '99999');
+  const tampered = body.replace('800000', '999999');
   assert.notEqual(tampered, body);
   assert.equal(paystack.verify(tampered, headers, PAYSTACK_SECRET), false);
 });
