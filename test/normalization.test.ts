@@ -60,6 +60,17 @@ test('flutterwave: charge.completed (successful) maps to "charge.success"', () =
   assert.ok(e.raw);
 });
 
+test('flutterwave: legacy v2 Rave webhook (event.type, no data wrapper) maps to charge.success', () => {
+  const e = normFlutterwave('charge.v2.json');
+  assert.equal(e.provider, 'flutterwave');
+  assert.equal(e.type, 'charge.success');
+  assert.equal(e.reference, 'Rave-Pages213861598699'); // v2 txRef, not data.tx_ref
+  assert.equal(e.amount, 4000);
+  assert.equal(e.currency, 'NGN');
+  assert.deepEqual(e.customer, { email: 'ravesb_test@example.com', name: 'Jane Doe' }); // v2 fullName -> name
+  assert.equal(e.id, '10572720:charge.success');
+});
+
 test('flutterwave: charge.refund maps to type "refund"', () => {
   const e = normFlutterwave('refund.json');
   assert.equal(e.type, 'refund');

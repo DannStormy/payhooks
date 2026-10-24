@@ -52,42 +52,49 @@ export const flutterwave: Provider = {
     } catch {
       parsed = null;
     }
+    const body = parsed ?? {};
 
-    const data = parsed?.data ?? {};
-    // Flutterwave uses both `event` (v3) and legacy `event.type`; check both.
-    const eventName = str(parsed?.event) ?? str(parsed?.['event.type']) ?? '';
-    const status = str(data?.status)?.toLowerCase();
+    // Flutterwave ships two webhook shapes. v3 (Standard/API): top-level `event`
+    // string + a `data` object. v2 (legacy Rave Pages): fields at the root,
+    // camelCase (txRef/flwRef), customer.fullName, and a key literally named
+    // "event.type" holding the channel (CARD_TRANSACTION, BANK_TRANSFER_TRANSACTION).
+    // Both are live in the wild, so pick the shape before reading any field.
+    const isV3 = typeof str(body.event) === 'string';
+    const src = isV3 ? (body.data ?? {}) : body;
 
-    const reference = str(data?.tx_ref) ?? str(data?.reference) ?? '';
+    const eventName = (isV3 ? str(body.event) : str(body['event.type']))?.toLowerCase() ?? '';
+    const status = str(src.status)?.toLowerCase();
+
+    const reference = isV3
+      ? str(src.tx_ref) ?? str(src.reference) ?? ''
+      : str(src.txRef) ?? str(src.flwRef) ?? '';
 
     let type: string;
-    const e = eventName.toLowerCase();
-    if (e === 'charge.completed') {
+    if (eventName === 'charge.completed' || eventName.endsWith('_transaction')) {
+      // v3 lifecycle event, or any v2 channel event: the outcome is in `status`.
       type = status === 'successful' ? 'charge.success' : 'charge.failed';
-    } else if (e.includes('refund') || e === 'refund') {
+    } else if (eventName.includes('refund')) {
       type = 'refund';
     } else {
       type = 'unknown';
     }
 
     // Flutterwave sends amounts in MAJOR units already (e.g. 100 == NGN 100), unlike Paystack's kobo, so no minor->major conversion.
-    const amount =
-      num(data?.amount_refunded) ?? num(data?.amount) ?? 0;
+    const amount = num(src.amount_refunded) ?? num(src.amount) ?? 0;
+    const currency = str(src.currency) ?? '';
 
-    const currency = str(data?.currency) ?? '';
-
-    // data.id is Flutterwave's TRANSACTION id, reused across a transaction's events
-    // (charge, refund, chargeback all carry the same one). Compose type in so distinct
-    // events on one transaction get distinct dedup keys and a refund is not swallowed.
-    const providerId = data?.id ?? parsed?.id;
+    // The transaction id is reused across a transaction's events (charge, refund,
+    // chargeback all carry the same one), so compose the type in to keep distinct
+    // events on one transaction from colliding and a refund from being swallowed.
+    const providerId = src.id ?? body.id;
     const id =
       providerId != null ? `${String(providerId)}:${type}` : hashId(reference, type, raw);
 
     let customer: NormalizedEvent['customer'] = null;
-    const c = data?.customer;
+    const c = src.customer;
     if (c && typeof c === 'object') {
       const email = str(c.email);
-      const name = str(c.name);
+      const name = str(c.name) ?? str(c.fullName); // v3 `name`, v2 `fullName`
       if (email || name) {
         customer = {};
         if (email) customer.email = email;

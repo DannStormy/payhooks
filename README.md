@@ -142,18 +142,30 @@ does **not** authenticate the body, so it cannot detect a body modified in trans
 That is Flutterwave's design, not a kit limitation. Treat the secret as a secret and
 serve your endpoint over TLS.
 
-## NOTE: validate the fixtures before you publish
+## Flutterwave sends two webhook shapes
 
-The provider fixtures under `src/providers/__fixtures__` are **documentation-derived**.
-They were hand-built from each provider's published webhook docs, not captured from
-live traffic. Field names, nesting, whether `data.id` is present, and the exact `event`
-strings for refund and dispute events can drift from the docs.
+Flutterwave has two live formats and payhooks normalizes both:
 
-Before publishing or relying on this in production, capture real **test-mode** webhooks
-(point a test integration at a request-capture endpoint, trigger a charge and a
-refund), diff them against the fixtures, and correct any drift. Adjust the normalizers'
-event-name matching if the live names differ. Each fixture directory has a README with
-the specific uncertainties for that provider.
+- **v3** (Standard checkout / v3 API): top-level `event` string plus a `data` object,
+  snake_case fields, `customer.name`.
+- **v2** (legacy Rave Pages): fields at the root, camelCase (`txRef`, `flwRef`),
+  `customer.fullName`, and a key literally named `"event.type"` for the channel. Still
+  common for older Nigerian merchants.
+
+The normalizer detects the shape and returns the same `NormalizedEvent` either way, so
+you don't branch on it. A v3-only lib silently returns `unknown` on real Rave traffic,
+this one doesn't.
+
+## Fixture validation status
+
+- **Paystack**: validated against real test-mode webhooks. Capturing them is what
+  surfaced that refunds carry no `data.reference`, only `data.transaction_reference`.
+- **Flutterwave v2**: `charge.v2.json` is a real test-mode capture.
+- **Flutterwave v3**: `charge.completed.json` and `refund.json` are still
+  documentation-derived (built from the docs, not yet captured). Validate them before
+  relying on v3 refund handling in production: point a Standard integration at a
+  request-capture endpoint, fire a charge and a refund, and diff. The `npm run
+  validate:fixtures` harness does the capture and diff.
 
 ## License
 

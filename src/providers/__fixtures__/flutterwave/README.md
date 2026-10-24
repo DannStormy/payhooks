@@ -1,16 +1,22 @@
 # Flutterwave fixtures
 
-These payloads are DOCUMENTATION-DERIVED, hand-built from Flutterwave's published
-webhook docs. They have NOT been captured from live traffic.
+Flutterwave sends two different webhook shapes, and payhooks handles both:
 
-Known uncertainties:
-- The exact refund event name. Flutterwave has used `charge.refund`, `charge.refunded`,
-  and a legacy `event.type: "REFUND"` shape across versions. `refund.json` uses one of
-  these; the normalizer matches any event name containing "refund".
-- Field presence on refunds (`amount_refunded` vs `amount`) varies by version.
-- Whether a top-level event id is ever sent (we only observe `data.id` in the docs).
+- **v3 (Standard checkout / v3 API):** top-level `event` string (e.g. `charge.completed`)
+  plus a `data` object. Fields are snake_case (`tx_ref`), customer name is `customer.name`.
+- **v2 (legacy Rave Pages):** fields at the root, camelCase (`txRef`, `flwRef`), customer
+  name is `customer.fullName`, and a key literally named `"event.type"` holds the channel
+  (`CARD_TRANSACTION`, `BANK_TRANSFER_TRANSACTION`). Still very common for older Nigerian
+  merchants.
 
-MUST validate against real captured test-mode webhooks before publish. Point a Flutterwave
-test-mode integration at a request-capture endpoint, trigger a successful charge and a
-refund, and replace these files with the real bodies. Adjust the normalizer's event-name
-matching if the live names differ.
+Files:
+- `charge.v2.json` — **real test-mode capture** (2026-10-24, a Rave Pages bank-transfer
+  charge). Scrubbed of IP, email, name, phone. This is why v2 support exists: a real
+  capture proved the published v3-only normalizer returned `unknown` on live Rave traffic.
+- `charge.completed.json` — v3 successful charge. Still **doc-derived**, not yet captured.
+- `refund.json` — v3 refund. Still **doc-derived**. The normalizer matches any event name
+  containing "refund".
+- `unknown.json` — a v3 event we intentionally do not map (falls through to `unknown`).
+
+Remaining gate before a clean 1.0: capture a real **v3** charge + refund (fire them through
+a Standard/inline integration, not a Rave Page) and replace the two doc-derived files.

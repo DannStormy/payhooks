@@ -41,9 +41,9 @@
     "prepublishOnly": "npm run build && npm test",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test test/*.test.ts",
-    "validate:fixtures": "node --import tsx tools/validate-fixtures.ts",
-    "validate:file": "node --import tsx tools/validate-fixtures.ts",
-    "validate:diff": "node --import tsx tools/validate-fixtures.ts --diff-only"
+    "validate:fixtures": "node --env-file-if-exists=.env --import tsx tools/validate-fixtures.ts",
+    "validate:file": "node --env-file-if-exists=.env --import tsx tools/validate-fixtures.ts",
+    "validate:diff": "node --env-file-if-exists=.env --import tsx tools/validate-fixtures.ts --diff-only"
   },
   "engines": {
     "node": ">=18"

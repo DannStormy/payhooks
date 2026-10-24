@@ -6,3 +6,6 @@ SCOPE.md
 
 # captured real webhooks (test data), not for the repo
 tools/captured/
+
+# local secrets for the validation harness
+.env
