@@ -34,6 +34,15 @@ function str(v: unknown): string | undefined {
   return typeof v === 'string' && v.length > 0 ? v : undefined;
 }
 
+/**
+ * Flutterwave provider. Normalizes both webhook shapes to one `NormalizedEvent`:
+ * v3 (Standard checkout / v3 API, the current standard) and v2 (legacy Rave Pages).
+ *
+ * Validation note: the v2 charge shape is verified against real test-mode traffic.
+ * The v3 fixtures are documentation-derived and not yet captured from live traffic;
+ * the v3 refund event in particular is unverified, so confirm it before relying on
+ * v3 refund handling in production.
+ */
 export const flutterwave: Provider = {
   name: 'flutterwave',
 

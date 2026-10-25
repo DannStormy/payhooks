@@ -156,18 +156,23 @@ The normalizer detects the shape and returns the same `NormalizedEvent` either w
 you don't branch on it. A v3-only lib silently returns `unknown` on real Rave traffic,
 this one doesn't.
 
-## Fixture validation status
+## What's validated
 
-- **Paystack**: validated against real test-mode webhooks. Capturing them is what
-  surfaced that refunds carry no `data.reference`, only `data.transaction_reference`.
-- **Flutterwave v2**: `charge.v2.json` is a real test-mode capture. Rave v2 does **not**
-  send a refund webhook (verified: a test-mode refund fired nothing), so v2 refunds are a
-  poll-the-API action, not an event you receive.
-- **Flutterwave v3**: `charge.completed.json` and `refund.json` are still
-  documentation-derived (built from the docs, not yet captured). Validate them before
-  relying on v3 refund handling in production: point a Standard integration at a
-  request-capture endpoint, fire a charge and a refund, and diff. The `npm run
-  validate:fixtures` harness does the capture and diff.
+v3 is the primary, standard Flutterwave integration and is fully supported. The notes
+below are about which fixtures have been checked against real traffic, not about which
+code paths work.
+
+- **Paystack**: charge and refund validated against real test-mode webhooks. Capturing
+  them surfaced that refunds carry no `data.reference`, only `data.transaction_reference`.
+- **Flutterwave v2** (legacy Rave): `charge.v2.json` is a real test-mode capture. Rave v2
+  does **not** send a refund webhook (verified: a test-mode refund fired nothing), so v2
+  refunds are a poll-the-API action, not an event you receive.
+- **Flutterwave v3**: the normalizer is the standard path and handles it, but
+  `charge.completed.json` and `refund.json` are built from the docs, not yet captured from
+  live traffic. The charge shape is well documented; the refund event is the least certain
+  part, so verify it before you lean on v3 refund handling in production. `npm run
+  validate:fixtures` does the capture and diff.
+- **Idempotency stores**: memory, Redis, and SQL are all covered by tests.
 
 ## License
 
