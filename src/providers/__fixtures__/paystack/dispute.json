@@ -1,0 +1,10 @@
+{
+  "event": "charge.dispute.create",
+  "data": {
+    "id": 210,
+    "reference": "DISPUTE_ref_001",
+    "amount": 500000,
+    "currency": "NGN",
+    "status": "awaiting-merchant-feedback"
+  }
+}

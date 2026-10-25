@@ -10,4 +10,5 @@ real bug: refunds carry no `data.reference`, only `data.transaction_reference`
 Files:
 - `charge.success.json` — successful charge (real capture)
 - `refund.json` — refund, `event: refund.pending` (real capture; no `data.reference`)
+- `dispute.json` — a dispute event (`charge.dispute.create`), maps to `chargeback`. Hand-written from the docs, not yet captured from real traffic.
 - `unknown.json` — an event type we intentionally do not map (falls through to `unknown`)

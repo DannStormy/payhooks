@@ -34,6 +34,15 @@ test('paystack: refund (refund.pending) maps to type "refund"', () => {
   assert.deepEqual(e.customer, { email: 'company@yopmail.com', name: 'Liya Pra7' });
 });
 
+test('paystack: a dispute event maps to type "chargeback"', () => {
+  const e = normPaystack('dispute.json');
+  assert.equal(e.type, 'chargeback');
+  assert.equal(e.reference, 'DISPUTE_ref_001');
+  assert.equal(e.amount, 5000); // 500000 kobo -> 5000 NGN major units
+  assert.equal(e.currency, 'NGN');
+  assert.equal(e.id, 'paystack:210');
+});
+
 test('paystack: unknown event type passes through as "unknown" without throwing', () => {
   const e = normPaystack('unknown.json');
   assert.equal(e.type, 'unknown');

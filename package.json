@@ -49,8 +49,8 @@
     "node": ">=18"
   },
   "peerDependencies": {
-    "ioredis": "^5",
-    "better-sqlite3": "^11"
+    "better-sqlite3": "^11",
+    "ioredis": "^5"
   },
   "peerDependenciesMeta": {
     "ioredis": {
@@ -62,6 +62,8 @@
   },
   "devDependencies": {
     "@types/node": "^22",
+    "ioredis-mock": "^8.13.1",
+    "node-sqlite3-wasm": "^0.8.61",
     "tsx": "^4",
     "typescript": "^5"
   }
