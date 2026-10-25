@@ -1,6 +1,6 @@
 {
   "name": "@dannstormy/payhooks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Verify, normalize, and reliably process inbound webhooks from African payment providers (Paystack, Flutterwave).",
   "license": "MIT",
   "author": "Daniel Isaac",
